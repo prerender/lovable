@@ -1,25 +1,46 @@
 # Prerender.io – Lovable (Cloudflare Worker)
 
-A Cloudflare Worker that proxies your Lovable app and routes bot traffic through Prerender.io for SEO rendering.
+Cloudflare Workers that route bot traffic through Prerender.io for SEO rendering on Lovable apps.
 
-## How it works
+## Which worker to use
 
-- Regular users are proxied transparently to your Lovable app (`LOVABLE_UPSTREAM`)
-- Search engine bots and crawlers are routed to Prerender.io for server-side rendered HTML
-- Canonical tags are injected/replaced to point to the public URL
-- Redirects from the upstream are rewritten to use your public hostname
+| File | For whom |
+|------|----------|
+| `worker-subscriber.js` | Lovable **paid subscribers** with a custom domain set up in Lovable's dashboard |
+| `worker-custom-domain.js` | **Free Lovable users** who proxy their `yourapp.lovable.app` through Cloudflare to serve it from a custom domain |
 
-## Setup
+---
 
-1. Deploy `worker.js` as a Cloudflare Worker
-2. Set the following environment variables in your Worker settings:
+## worker-subscriber.js (paid subscribers)
+
+For Lovable paid plan users who configured their custom domain directly in Lovable. Your domain already points to Lovable's servers — this worker sits in front and routes crawler traffic to Prerender.io. No proxying needed.
+
+### Setup
+
+1. Deploy `worker-subscriber.js` as a Cloudflare Worker on your custom domain
+2. Set the following environment variable:
+
+| Variable | Description |
+|----------|-------------|
+| `PRERENDER_TOKEN` | Your Prerender.io token |
+
+---
+
+## worker-custom-domain.js (free users / custom proxy)
+
+For free Lovable users who want to serve their app from a custom domain by proxying through Cloudflare. All traffic is forwarded to your Lovable app URL, with bots routed to Prerender.io and canonical tags injected.
+
+### Setup
+
+1. Deploy `worker-custom-domain.js` as a Cloudflare Worker on your custom domain
+2. Set the following environment variables:
 
 | Variable | Description |
 |----------|-------------|
 | `LOVABLE_UPSTREAM` | Your Lovable app URL (e.g. `https://yourapp.lovable.app`) |
 | `PRERENDER_TOKEN` | Your Prerender.io token |
 
-## Authentication / OAuth
+### Authentication / OAuth
 
 Lovable uses Supabase for authentication. When your app is served from a custom domain via this worker, the OAuth callback URL seen by the browser will be your custom domain (e.g. `https://example.com/auth/callback`), not the original Lovable URL.
 
@@ -36,4 +57,5 @@ Without this step, Supabase will reject the OAuth callback and users will not be
 
 ## Requirements
 
-- Cloudflare Workers (supports `HTMLRewriter`)
+- Cloudflare Workers
+- `worker-custom-domain.js` additionally requires `HTMLRewriter` support (available on all Cloudflare Workers plans)

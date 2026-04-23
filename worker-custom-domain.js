@@ -64,7 +64,7 @@ async function handleRequest(request, env) {
     const prerenderUrl = `https://service.prerender.io/${encodeURIComponent(url.href)}`;
     const newHeaders = new Headers(request.headers);
     newHeaders.set("X-Prerender-Token", env.PRERENDER_TOKEN);
-    newHeaders.set("X-Prerender-Int-Type", "CloudFlare-Lovable");
+    newHeaders.set("X-Prerender-Int-Type", "CloudFlare-Lovable-CustomDomain");
     newHeaders.delete("Host");
 
     const prerenderResp = await fetch(new Request(prerenderUrl, { headers: newHeaders, redirect: "manual" }));
