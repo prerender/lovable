@@ -44,16 +44,13 @@ For free Lovable users who want to serve their app from a custom domain by proxy
 
 Lovable uses Supabase for authentication. When your app is served from a custom domain via this worker, the OAuth callback URL seen by the browser will be your custom domain (e.g. `https://example.com/auth/callback`), not the original Lovable URL.
 
-For auth to work correctly you need to add your custom domain to the **allowed redirect URLs** in the Supabase project that backs your Lovable app:
+For auth to work correctly you need to add your custom domain to the allowed redirect URLs in the Lovable dashboard:
 
-1. Go to your [Supabase dashboard](https://supabase.com/dashboard)
-2. Open the project linked to your Lovable app
-3. Navigate to **Authentication → URL Configuration**
-4. Add your custom domain to **Redirect URLs** (e.g. `https://example.com/**`)
+1. Go to your Lovable dashboard
+2. Navigate to **Cloud → Users → Authentication Settings → Advanced**
+3. Add your custom domain to the **URI allow list** (e.g. `https://example.com/**`)
 
 Without this step, Supabase will reject the OAuth callback and users will not be able to log in.
-
-> **Note:** You cannot do this through Lovable's UI directly — you need access to the underlying Supabase project.
 
 ## Requirements
 
