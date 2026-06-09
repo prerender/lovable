@@ -7,7 +7,7 @@ const BOT_AGENTS = [
   "skypeuripreview", "nuzzel", "discordbot", "google page speed", "qwantify", "pinterestbot",
   "bitrix link preview", "xing-contenttabreceiver", "chrome-lighthouse", "telegrambot",
   "oai-searchbot", "chatgpt", "gptbot", "claudebot", "claude-user", "amazonbot", "perplexity",
-  "google-inspectiontool", "integration-test",
+  "google-inspectiontool", "integration-test", "iframely",
 ];
 
 const IGNORE_EXTENSIONS = [
